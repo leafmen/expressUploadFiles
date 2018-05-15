@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传</title>
+    <script type="text/javascript" src="../javascripts/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="../javascripts/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="../javascripts/fileupload.js"></script>
+</head>
+<body>
+<form id="form1">
+    <table>
+
+        <tr>
+            <td>
+                <input type="file" id="artcover1" name="file" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="articles_cover1" name="articles_cover1" style="width:300px;border: 0px" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label id="articlescover1" style="border: 0;margin: 0;" />
+            </td>
+        </tr>
+
+<tr>
+    <td>
+        <button type="button" id="btnsave">保存</button>
+    </td>
+</tr>
+    </table>
+</form>
+
+
+<script type="text/javascript">
+    function saveArt(state) {
+        var wData;
+            wData = {"articles_title": "文章标题"};
+        var jData = {
+            "articles_title": "文章标题",
+            "articles_sub_title": "文章副题",
+            "articles_type": "2",
+            "articles_src": "2",
+            "articles_author": "文章作者",
+            "executive_editor": "责任编辑",
+            "articles_keywords1": "关键词1",
+            "articles_keywords2": "关键词2",
+            "articles_cover1": $("#articles_cover1").val()!=""?$("#articles_cover1").val():null,
+            "articles_content": "文章内容",
+            "articles_state": 1,
+        };
+//        window.alert($("#articles_cover1").val());
+        var data = {jData: JSON.stringify(jData), wData: JSON.stringify(wData)};
+        $.ajax({
+            data: data,
+            url: '/saveuploadfiles',
+            type: 'post',
+            dataType: 'json',
+            cache: false,
+            timeout: 5000,
+            success: function (data) {
+                if (data.status == 'success') {
+                    window.alert("内容保存成功！");
+
+                } else if (data.status == 'failed') {
+                    window.alert("内容保存失败,请确认数据正确性！");
+                    return;
+                }
+            }
+        });
+
+        return false;
+    }
+
+    $(function () {
+        $("#btnsave").click(function () {
+            saveArt(1);
+            return false
+        });
+    });//end document.ready
+</script>
+</body>
+
+</html>
